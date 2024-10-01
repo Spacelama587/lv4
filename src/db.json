@@ -9,7 +9,93 @@
       "id": "1e11",
       "username": "Vijith2",
       "password": "123"
+    },
+    {
+      "id": "28ba",
+      "username": "Vijith",
+      "password": "asd"
+    },
+    {
+      "id": "a49a",
+      "username": "Vijith",
+      "password": "asd"
+    },
+    {
+      "id": "698e",
+      "username": "Vijithw",
+      "password": "123"
+    },
+    {
+      "id": "7165",
+      "username": "v",
+      "password": "123"
     }
   ],
-  "todos": []
+  "todos": [
+    {
+      "id": "64c4",
+      "username": "1234sdfd",
+      "title": "3r43rer",
+      "content": "sfsdfdsfg",
+      "completed": false,
+      "comments": []
+    },
+    {
+      "id": "64c5",
+      "username": "anotherUser",
+      "title": "Another task",
+      "content": "Complete the challenge",
+      "completed": false,
+      "comments": []
+    },
+    {
+      "id": "2aa1",
+      "username": "1234we",
+      "title": "wewewewe",
+      "content": "ewrwer",
+      "completed": false
+    },
+    {
+      "id": "2aa2",
+      "username": "1234we",
+      "title": "wewewewe (duplicate)",
+      "content": "ewrwer (duplicate)",
+      "completed": false
+    },
+    {
+      "id": "1ab4",
+      "username": "test45",
+      "title": "fdgfgsdfcd",
+      "content": "fgfgfsdsv",
+      "completed": false
+    },
+    {
+      "id": "7a38",
+      "username": "erdfgerfg",
+      "title": "gregreg",
+      "content": "rgrgreg",
+      "completed": false
+    },
+    {
+      "id": "7a38",
+      "username": "erdfgerfg",
+      "title": "gregreg",
+      "content": "rgrgreg",
+      "completed": false
+    },
+    {
+      "id": "18e3",
+      "username": "rgrgre",
+      "title": "gregtrrg",
+      "content": "grgregre",
+      "completed": false
+    },
+    {
+      "id": "18e3",
+      "username": "rgrgre",
+      "title": "gregtrrg",
+      "content": "grgregre",
+      "completed": false
+    }
+  ]
 }

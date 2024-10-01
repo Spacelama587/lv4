@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos, deleteTodo } from "../todos"; 
 import { Link as RouterLink } from "react-router-dom";
 import { Box, Typography, List, ListItem, Link, IconButton } from "@mui/material";
 import { MdDelete } from "react-icons/md";
+import Pagination from "./Pagination"; // Import your Pagination component
 
 const ViewTodos = () => {
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [todosPerPage] = useState(5); // Set the number of todos to display per page
 
   useEffect(() => {
     dispatch(fetchTodos());
@@ -17,10 +21,17 @@ const ViewTodos = () => {
   const handleDelete = (id) => {
     const confirmed = window.confirm("Are you sure you want to delete this todo?");
     if (confirmed) {
-      //dispatch - action to remove the todo from the store
       dispatch(deleteTodo(id)); 
     }
   };
+
+  // Calculate the current todos to display
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = todos.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  // Handle page change
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <Box sx={{ padding: "20px" }}>
@@ -29,7 +40,7 @@ const ViewTodos = () => {
       </Typography>
 
       <List>
-        {todos.map((todo) => (
+        {currentTodos.map((todo) => (
           <ListItem
             key={todo.id}
             sx={{
@@ -53,8 +64,6 @@ const ViewTodos = () => {
                 </Typography>
               </Link>
             </Box>
-
-     
             <IconButton
               edge="end"
               aria-label="delete"
@@ -65,6 +74,13 @@ const ViewTodos = () => {
           </ListItem>
         ))}
       </List>
+
+      {/* Pagination Component */}
+      <Pagination 
+        todosPerPage={todosPerPage} 
+        totalTodos={todos.length} 
+        paginate={paginate} 
+      />
     </Box>
   );
 };

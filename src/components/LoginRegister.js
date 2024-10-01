@@ -7,21 +7,19 @@ const LoginRegister = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
 
   const [loginCredentials, setLoginCredentials] = useState({
-    username: "",
+    id: "",
     password: ""
   });
 
   const [registerCredentials, setRegisterCredentials] = useState({
-    username: "",
+    id: "",
     password: ""
   });
 
-  // function to switch between Login and Register
   const toggleForm = () => {
     setIsLogin(!isLogin);
   };
 
-  
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginCredentials((prevCred) => ({
@@ -38,39 +36,40 @@ const LoginRegister = ({ setIsAuthenticated }) => {
     }));
   };
 
-  // handleSubmit for login
+  // Handle login submission
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.get("http://localhost:5000/users");
-      const user = res.data.find(
-        (u) =>
-          u.username === loginCredentials.username &&
-          u.password === loginCredentials.password
-      );
-      if (user) {
-        console.log("Login successful");
-        setIsAuthenticated(true); // Mark as authenticated
-        navigate("/"); // Redirect after login
-      } else {
-        console.log("Invalid credentials");
-      }
+      const res = await axios.post("http://3.38.191.164/login", loginCredentials);
+      console.log("Login successful:", res.data);
+      setIsAuthenticated(true); // Set authentication state
+      localStorage.setItem("token", res.data.token); // Store token in local storage
+      navigate("/"); // Redirect after login
     } catch (error) {
-      console.error("Login failed", error);
+      if (error.response && error.response.status === 401) {
+        console.error("Login failed: Invalid credentials or user does not exist.");
+      } else {
+        console.error("Login failed:", error.message);
+      }
     }
   };
 
-  // Submit registration
+  // Handle register submission
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/users", registerCredentials);
-      setIsAuthenticated(true); // Automatically log in after registration
+      const res = await axios.post("http://3.38.191.164/register", registerCredentials);
+      console.log("Registration successful:", res.data);
+      setIsAuthenticated(true);
+      navigate("/"); // Automatically navigate after registration
     } catch (error) {
-      console.error("Registration failed", error);
+      if (error.response && error.response.status === 401) {
+        console.error("Registration failed: User ID already exists or invalid input.");
+      } else {
+        console.error("Registration failed:", error.message);
+      }
     }
   };
-
 
   const containerStyle = {
     width: '300px',
@@ -95,7 +94,7 @@ const LoginRegister = ({ setIsAuthenticated }) => {
     width: '100%',
     padding: '10px',
     margin: '10px 0',
-    backgroundColor: isLogin ? '#007bff' : '#ff9800', // Blue - login, orange - register
+    backgroundColor: isLogin ? '#007bff' : '#ff9800',
     color: 'white',
     border: 'none',
     borderRadius: '5px',
@@ -113,7 +112,7 @@ const LoginRegister = ({ setIsAuthenticated }) => {
   };
 
   const titleStyle = {
-    color: isLogin ? '#007bff' : '#ff9800' // Title color change
+    color: isLogin ? '#007bff' : '#ff9800'
   };
 
   return (
@@ -124,10 +123,10 @@ const LoginRegister = ({ setIsAuthenticated }) => {
           <input
             style={inputStyle}
             type="text"
-            name="username"
-            value={loginCredentials.username}
+            name="id"
+            value={loginCredentials.id}
             onChange={handleLoginChange}
-            placeholder="Username"
+            placeholder="ID"
           />
           <input
             style={inputStyle}
@@ -146,10 +145,10 @@ const LoginRegister = ({ setIsAuthenticated }) => {
           <input
             style={inputStyle}
             type="text"
-            name="username"
-            value={registerCredentials.username}
+            name="id"
+            value={registerCredentials.id}
             onChange={handleRegisterChange}
-            placeholder="Username"
+            placeholder="ID"
           />
           <input
             style={inputStyle}
